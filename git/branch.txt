@@ -9,4 +9,4 @@ Git 已经为 Mac 用户做好了一个安装包, 我们可以在这里下载并
 
 Windows系统:
 Git 也为 Windows 系统提供了简易的 .exe 安装包, 直接从这里下载并安装就可以了: https://git-scm.com/download/win
- 
+ title gossiping 10
