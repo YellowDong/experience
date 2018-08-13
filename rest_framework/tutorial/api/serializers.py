@@ -5,18 +5,23 @@ from rest_framework import serializers
 from api.models import BlogModel, TagModel
 
 
-class TagSerializer(serializers.ModelSerializer):
+class TagSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = TagModel
-        fields = ('name',)
+        fields = ('url', 'id', 'name',)
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.save()
+        return instance
 
 
-class BlogSerializer(serializers.ModelSerializer):
+class BlogSerializer(serializers.HyperlinkedModelSerializer):
     tag = TagSerializer()
 
     class Meta:
         model = BlogModel
-        fields = ('title', 'body', 'tag', 'create_time')
+        fields = ('url', 'id', 'title', 'body', 'tag', 'create_time', 'author')
 
     def create(self, validated_data):
         tag_data = validated_data.pop('tag')
@@ -26,13 +31,9 @@ class BlogSerializer(serializers.ModelSerializer):
         return blog
 
     def update(self, instance, validated_data):
-        # tag_data = validated_data.pop('tag')
-
-        # tag = instance.tag
-
         instance.title = validated_data.get('title', instance.title)
         instance.body = validated_data.get('body', instance.body)
-        instance.tag = validated_data.get('tag', instance.tag)
+        instance.tag.name = validated_data.get('tag')['name']
         instance.save()
         # tag.has_support_contract = tag_data.get('has_support_contract',
         #                                     tag.has_support_contract)
