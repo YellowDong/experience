@@ -1,0 +1,84 @@
+python string对象的内建方法
+
+capitalize() -> 首字母大写
+In [2]: a = 'abc'
+In [3]: a.capitalize()
+Out[3]: 'Abc'
+
+center(width,fillchar) ->返回一个指定的宽度 width 居中的字符串，fillchar 为填充的字符，默认为空格
+In [11]: a.center(4)
+Out[11]: 'abc '
+
+In [12]: a.center(5)
+Out[12]: ' abc '
+
+In [13]: a.center(6)
+Out[13]: ' abc  '
+
+In [14]: a.center(2)
+Out[14]: 'abc'
+
+
+count() -> 对字符串中某个字符进行计数
+In [15]: a = 'abcaadedc'
+
+In [16]: a.count('a')
+Out[16]: 3
+
+In [17]: a.count('f')
+Out[17]: 0
+
+
+encode(encoding='utf-8',errors='strict') -> 以 encoding 指定的编码格式编码字符串，如果出错默认报一个ValueError 的异常，除非 errors 指定的是'ignore'或者'replace'
+In [30]: a = 'abc'
+
+In [31]: type(a)
+Out[31]: str
+
+In [32]: b = a.encode()
+
+In [33]: type(b)
+Out[33]: bytes
+
+endswith() -> 判断字符串是否是以某个字符结尾
+In [30]: a = 'abc'
+In [34]: a.endswith('c')
+Out[34]: True
+
+In [35]: a.endswith('a')
+Out[35]: False
+
+expandtabs(tabsize=8) ->把字符串 string 中的 tab 符号转为空格，tab 符号默认的空格数是 8
+
+In [36]: a = 'abvdf\tdd'
+
+In [37]: a.expandtabs()
+Out[37]: 'abvdf   dd'
+
+
+isalnum() ->如果字符串至少有一个字符且所有字符都是字母或数字返回TRUE,否则返回False
+In [49]: a ='234'
+In [51]: a.isalnum()
+Out[51]: True
+
+In [52]: a = 'df345'
+In [53]: a.isalnum()
+Out[53]: True
+
+In [58]: a = 'dfd*f'
+In [59]: a.isalnum()
+Out[59]: False
+
+
+isalpha() -> 如果字符串至少有一个字符并且所有字符都是字母则返回 True, 否则返回 False
+
+In [60]: a = 'dfd34'
+
+In [61]: a.isalpha()
+Out[61]: False
+
+In [62]: a = 'dfdf'
+
+In [63]: a.isalpha()
+Out[63]: True
+
