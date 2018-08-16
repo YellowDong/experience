@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post
+from .models import Post, Category
 import markdown
+from django.views.generic import ListView, DetailView
 
 # Create your views here.
 
@@ -12,6 +13,20 @@ def index(request):
     post_list = Post.objects.all().order_by('-created_time')
     return render(request, 'blog/index.html',
                   context={'title': 'this is a title', 'post_list': post_list})
+
+
+def archives(request, year, month):
+    post_list = Post.objects.filter(created_time__year=year,
+                                    created_time__month=month).order_by('-created_time')
+    return render(request, 'blog/index.html', context={'post_list': post_list})
+
+
+def categories(request, category):
+    category = Category.objects.get(name=category)  # 这里用get_object_or_404更好, 参数传pk更好
+
+    post_list = Post.objects.filter(category_id=category).order_by('-created_time')
+    return render(request, 'blog/index.html', context={'post_list': post_list})
+
 
 # 使用视图类
 class IndexView(ListView):
@@ -53,14 +68,14 @@ class IndexView(ListView):
         right_has_more = False
 
         if curren_page == 1:
-            right_range =page_range[curren_page:curren_page + 2]
-            if right_rang[-1] < total_pages:
+            right_range = page_range[curren_page:curren_page + 2]
+            if right_range[-1] < total_pages:
                 last = True
             if right_range[-1] + 1 < total_pages:
                 right_has_more = True
 
         elif curren_page == total_pages:
-            left_range =page_range[(curren_page-3) if (page_number - 3) > 0
+            left_range = page_range[(curren_page-3) if (curren_page - 3) > 0
                                    else 0:total_pages]
             if left_range[0] - 1 > 1:
                 left_has_more = True
@@ -68,16 +83,26 @@ class IndexView(ListView):
                     first = True
 
         else:
-            left_range = page_range[(curren_page-3) if (curren_page-3)>0
-                                     else 0:curren_page-1]
+            left_range = page_range[(curren_page - 3) if (curren_page - 3) > 0
+                                     else 0:curren_page - 1]
             right_range = page_range[curren_page:curren_page+2]
-            if right_range[-1] < total_pages -1:
+            if right_range[-1] < total_pages - 1:
                 right_has_more = True
             if right_range[-1] < total_pages:
                 last = True
-
-
-
+            if left_range[0] - 1 > 1:
+                left_has_more = True
+            if left_range[0] > 1:
+                first = True
+        data = {
+           'left_range': left_range,
+           'right_range': right_range,
+           'left_has_more': left_has_more,
+           'right_has_more': right_has_more,
+           'last': last,
+           'first': first,
+        }
+        return data
 
 
 def detail(request, pk):
@@ -85,5 +110,5 @@ def detail(request, pk):
     post.body = markdown.markdown(post.body,
                                   entensions=['markdown.extensions.extra',
                                               'markdown.extensions.codehilite',
-                                              'markdown.extensions.toc',])
+                                              'markdown.extensions.toc', ])
     return render(request, 'blog/detail.html', context={'post': post})
