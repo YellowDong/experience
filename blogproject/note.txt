@@ -9,5 +9,5 @@ Django2.xx在url.py中从原来的from django.conf.urls import url,include  改�
 在模板引擎中使用模板标签时，如想利用{% static %}静态模板标签时 记得在文件头引入{% load staticfiles %}  同时也要记得在settings.py文件中配置STATIC_URL 的路径 可以查看网页源代码具体文件的路径如：
 href="/static/blog/css/pace.css" 减去模板标签中的部分如href="{% static 'blog/css/pace.css' %}" 则STATIC_URL="/static/"  这样设计的好处就是减少耦合，例如把/static/ 改成/source/时不用每个路径都得改
 
-
+redirect函数可以对http请求进行重定向，它可以接收一个url作为参数,也可以接收一个模型实例作为参数,如果接收模型实例为参数，则模型实例必须实现了get_absolute_url方法，这样redirect会根据get_absolute_url方法返回的url进行重定向
 

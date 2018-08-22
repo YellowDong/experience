@@ -19,5 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     path(r'admin/', admin.site.urls),
     path(r'', include('blog.urls')),
-
+    path(r'', include('comments.urls')),
 ]
