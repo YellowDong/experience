@@ -25,7 +25,7 @@
     {% csrf_token %}
     <div class="row">
         <div class="col-md-4">
-            <label for="{{ form.name.id_for_label }}">名字:</label>
+            <label for="{{ form.author.id_for_label }}">名字:</label>
             {{ form.author }}
             {{ form.author.errors }}
         </div>
@@ -40,7 +40,7 @@
             {{ form.url.errors }}
         </div>
         <div class="col-md-4">
-            <label for="{{ form.text.id_for_label }}">评论:</label>
+            <label for="{{ form.body.id_for_label }}">评论:</label>
             {{ form.body }}
             {{ form.body.errors }}
             <button type="submit" class="comment-bin">发表</button>
@@ -48,7 +48,7 @@
     </div>
 </form>
 <div class="comment-list-panel">
-    <h3>评论列表,共 <span>{{ post.ocmment_set.count }}</span>条评论</h3>
+    <h3>评论列表,共 <span>{{ post.comment_set.count }}</span>条评论</h3>
     <ul class="comment-list list-unstyled">
         {% for comment in comment_list %}
             <li class="comment-item">

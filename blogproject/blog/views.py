@@ -10,7 +10,7 @@ from comments.forms import CommentForm
 
 def index(request):
     # return HttpResponse("liang shao dong huan ying nin !")
-    post_list = Post.objects.all().order_by('-created_time')
+    post_list = Post.objects.all()
     return render(request, 'blog/index.html',
                   context={'title': 'this is a title', 'post_list': post_list})
 
